@@ -1,0 +1,108 @@
+/* CSS Document */
+
+
+.hm-uploader { position: relative; height: 208px; ; border-radius:10px;}
+
+.hm-uploader.with-image .rwmb-drag-drop { display: none }
+.hm-uploader.with-image .rwmb-drag-drop { display: none }
+
+.hm-uploader .current-image { text-align: center;  position: absolute; background: transparent; top: 0; left: 0; z-index: 3 }
+.hm-uploader .current-image img { display: inline; vertical-align: middle; }
+
+.hm-uploader .current-image .image-options { position: absolute; bottom: 10px; right: 2px; background: rgba(0,0,0,0); color: #fff; height: 20px; line-height: 20px; padding: 0 5px; }
+.hm-uploader .current-image .image-options a { color: #fff }
+.hidden { display: none; }
+
+div.loading-block {
+	text-align: center;
+	line-height: 180px;
+	border-image: initial;	
+	position: absolute;
+	top: 0; left: 0;
+    background: transparent;
+	box-shadow: inset 0 2px 3px 1px rgba( 0, 0, 0, .3 );
+    border-radius:10px;
+	z-index: 2
+}
+
+div.rwmb-drag-drop {
+    background: rgba(0,0,0,.1);
+    box-shadow: inset 0 1px 3px 1px rgba( 0, 0, 0, .2 );
+	border-image: initial;	
+	position: absolute;
+	top: 0; left: 0;
+    border-radius:10px;
+	z-index: 1
+}
+
+div.rwmb-drag-drop-inside {
+	margin: -40px auto 0;
+	width: 100%;
+	position: absolute; top: 50%;
+
+}
+
+a.delete-image,
+div.rwmb-drag-drop-inside input[type=button] {
+    position:relative;
+    box-shadow: 0 2px 3px 1px rgba( 0, 0, 0, .25 );
+    font-family: sans-serif;
+    text-decoration: none;
+    font-size: 12px !important;
+    line-height: 12px;
+    padding: 5px 10px;
+    cursor: pointer;
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    color: rgba(0,0,0,0.5) !important;
+    background-color: #DDD;
+    background-repeat: repeat-x;
+    background-image: -khtml-gradient(linear, left top, left bottom, from(#ffffff), to(#dddddd));
+    background-image: -moz-linear-gradient(top, #ffffff, #dddddd);
+    background-image: -ms-linear-gradient(top, #ffffff, #dddddd);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffff), color-stop(100%, #dddddd));
+    background-image: -webkit-linear-gradient(top, #ffffff, #dddddd);
+    background-image: -o-linear-gradient(top, #ffffff, #dddddd);
+    background-image: linear-gradient(top, #ffffff, #dddddd);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#dddddd', GradientType=0);
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
+    border: 1px solid #DDD;
+    border-image: initial;
+    border-width: 1px;
+    border-style: solid;
+    -webkit-border-radius: 11px;
+    border-radius: 11px;
+}
+
+div.rwmb-drag-drop-inside input[type=button]:hover {
+    color:#727272;
+    top:1px;
+    box-shadow: 0 1px 2px 1px rgba( 0, 0, 0, .3 );
+    border:none;
+}
+
+div.rwmb-drag-drop-inside p {
+    font-family: sans-serif;
+	text-align: center;
+	display: block;
+	font-size: 20px;
+    color: rgba(0,0,0,.5);
+	margin: 5px 0;
+}
+
+.rwmb-images div{
+	color: #fff;
+	font-weight: bold;
+	position: absolute;
+	background: #000;
+	bottom: 0;
+	right: 0;
+	padding: 5px;
+}
+
+.rwmb-images div a{
+	position: relative;
+	color: #fff;
+	font-weight: bold; 	
+}
