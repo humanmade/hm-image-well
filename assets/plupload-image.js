@@ -11,7 +11,7 @@ var ImageWellController = new function() {
 
 			setTimeout( function() {
 				self.addFileUploadCallbackForImageWell( well_id, callback );
-			}, 1000 );
+			}, 100 );
 
 			return;
 		}
@@ -40,7 +40,7 @@ var ImageWellController = new function() {
 
 			setTimeout( function() {
 				self.addDeleteFileUploadCallbackForImageWell( well_id, callback );
-			}, 1000 );
+			}, 1 );
 
 			return;
 		}
@@ -57,6 +57,8 @@ var ImageWellController = new function() {
 
 	self.clearDataForImageWell = function( well_id ) {
 		
+		console.log( 'deleting');
+		console.log( jQuery( '#' + well_id + '-container .delete-image' ) );
 		jQuery( '#' + well_id + '-container .delete-image' ).click();
 	}
 }
@@ -68,7 +70,17 @@ jQuery( document ).ready( function($) {
 		max						= null
 	;
 
-	$( '.delete-image' ).bind( 
+	// Using all the image prefixes
+	totalRWMB = $( 'input:hidden.rwmb-image-prefix' ).length
+	
+	$( 'input:hidden.rwmb-image-prefix' ).each( function() { CMBInitImageWell( this ); } );
+
+
+});
+
+function CMBInitImageWell( obj ) {
+
+	jQuery( obj ).closest( '.hm-uploader' ).find( '.delete-image' ).bind( 
 		'click',
 		function(e)
 		{
@@ -84,15 +96,14 @@ jQuery( document ).ready( function($) {
 		}
 	);
 
-	// Using all the image prefixes
-	totalRWMB = $( 'input:hidden.rwmb-image-prefix' ).length
-	
-	$( 'input:hidden.rwmb-image-prefix' ).each( function() { CMBInitImageWell( this ); } );
+	jQuery( obj ).closest( '.hm-uploader' ).bind( 'dragover', function() {
+		jQuery( this ).addClass( 'drag-hover');
+	});
 
+	jQuery( obj ).closest( '.hm-uploader' ).bind( 'dragleave', function() {
+		jQuery( this ).removeClass( 'drag-hover');
+	});
 
-});
-
-function CMBInitImageWell( obj ) {
 	prefix = jQuery( obj ).val();
 	
 	var input = jQuery( obj )
@@ -105,15 +116,15 @@ function CMBInitImageWell( obj ) {
 		},
 		tf_well_plupload_defaults
 	);
+
 	
 	tf_well_plupload_init.multipart_params.field_id = prefix;
 	tf_well_plupload_init.multipart_params.size = input.parent().find( '.upload-form' ).attr( 'data-size' );
 
-	if ( totalRWMB == 1 )
-		tf_well_plupload_init.filters[0].extensions = input.parent().find( '.upload-form' ).attr( 'data-extensions' );
+	tf_well_plupload_init.filters[0].extensions = input.parent().find( '.upload-form' ).attr( 'data-extensions' );
 
 	// Create new uploader
-	tf_image_uploaders[ prefix ] = new plupload.Uploader( jQuery.extend( true, {}, tf_well_plupload_init ) );
+	tf_image_uploaders[ prefix ] = new plupload.Uploader( tf_well_plupload_init );
 
 	tf_image_uploaders[ prefix ].init();
 	//
@@ -130,6 +141,7 @@ function CMBInitImageWell( obj ) {
 					input.closest( '.hm-uploader' ).find( '.loading-block' ).fadeIn('fast', function() {
 					
 						input.closest( '.hm-uploader' ).addClass( 'loading' );
+						input.closest( '.hm-uploader' ).removeClass( 'drag-hover');
 					
 					} );
 				}
@@ -144,39 +156,39 @@ function CMBInitImageWell( obj ) {
 		function( up, file, response ) 
 		{	
 			response_xml = jQuery.parseXML( response.response );
-				res = wpAjax.parseAjaxResponse( response_xml, 'ajax-response' );
-				if ( false === res.errors )
-				{
-					res		= res.responses[0];
-					img_id	= res.data;
-					img_src	= res.supplemental.thumbnail;
-					img_edit = res.supplemental.edit_link;
-					
-					jQuery(input).closest('.hm-uploader').find( '.loading-block' ).fadeOut('fast' )
-					
-					setTimeout( function() {
-						jQuery(input).closest('.hm-uploader').find( '.current-image img' )
-							.attr('src',img_src).removeAttr( 'width' ).removeAttr('height');
-					
-					}, 2000 );
+			res = wpAjax.parseAjaxResponse( response_xml, 'ajax-response' );
+			if ( false === res.errors )
+			{
+				res		= res.responses[0];
+				img_id	= res.data;
+				img_src	= res.supplemental.thumbnail;
+				img_edit = res.supplemental.edit_link;
+									
+				setTimeout( function() {
+					jQuery(input).closest('.hm-uploader').find( '.current-image img' )
+						.attr('src',img_src).removeAttr( 'width' ).removeAttr('height');
 
-					
+					jQuery(input).closest('.hm-uploader').find( '.loading-block' ).fadeOut('fast' )
 					jQuery(input).closest('.hm-uploader').find( '.current-image' ).show();
-					
+
 					setTimeout( function() { jQuery(input).closest('.hm-uploader').find( '.current-image' ).fadeIn('fast', function() {
-						
+					
 						jQuery(input).closest('.hm-uploader').removeClass( 'loading' );
 						jQuery(input).closest('.hm-uploader').addClass( 'with-image' ); 
 						
-					} ) }, 100 )
-					
-					jQuery(input).closest('.hm-uploader').find( '.field-val' ).val( img_id )
-				}
+					} ) }, 1 )
+				}, 1 );
 
+				jQuery(input).closest('.hm-uploader').find( '.field-val' ).val( img_id )
+			}
 			
-		});
+		}
+	);
 
 	tf_image_uploaders[ prefix ].bind( 'Error', function( up, error ) {
+
+		input.closest( '.hm-uploader' ).removeClass( 'drag-hover');
+
 		alert( 'Error: ' + error.message );
 	} );
 }

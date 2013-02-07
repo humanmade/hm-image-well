@@ -2,7 +2,6 @@
 
 class Upload_Image_Well {
 
-	public $save_on_upload;
 	public $allowed_extensions;
 	public $drop_text;
 
@@ -14,10 +13,8 @@ class Upload_Image_Well {
 		$args = wp_parse_args( $args, array(
 
 			'allowed_extensions'  => array( 'jpg', 'jpeg', 'png', 'gif' ),
-			'drop_text'           => __( 'Drop image here', 'themeforce' ),
+			'drop_text'           => __( 'Drop image here', 'imagewell' ),
 			'size'                => 'width=440&height=200&crop=1',
-			'save_on_upload'      => false,
-			'display_placeholder' => true,
 			'html_fields'         => array()
 
 		) );
@@ -26,8 +23,6 @@ class Upload_Image_Well {
 
 		$this->drop_text 		    = $args['drop_text'];
 		$this->allowed_extensions   = $args['allowed_extensions'];
-		$this->save_on_upload	    = $args['save_on_upload'];
-		$this->display_placeholder  = $args['display_placeholder'];
 
 		$this->html_fields = $args['html_fields'];
 
@@ -52,7 +47,7 @@ class Upload_Image_Well {
 		// Enqueue same scripts and styles as for file field
 		wp_enqueue_script( 'plupload-all' );
 
-		wp_enqueue_script( 'well-plupload-image', IMAGE_WELL_URL . '/assets/plupload-image.js', array( 'jquery-ui-sortable', 'wp-ajax-response', 'plupload-all' ), IMAGE_WELL_VERSION );
+		wp_enqueue_script( 'well-plupload-image', IMAGE_WELL_URL . '/assets/plupload-image.js', array( 'wp-ajax-response', 'plupload-all' ), IMAGE_WELL_VERSION );
 
 		wp_localize_script( 'well-plupload-image', 'tf_well_plupload_defaults', array(
 			'runtimes'				=> 'html5,silverlight,flash,html4',
@@ -73,7 +68,7 @@ class Upload_Image_Well {
 
 		));
 
-		// wp_enqueue_style( 'well-upload-image', IMAGE_WELL_URL . '/assets/plupload-image.css' );
+		//wp_enqueue_style( 'well-upload-image', IMAGE_WELL_URL . '/assets/plupload-image.css' );
 	}
 
 	/**
@@ -150,64 +145,59 @@ class Upload_Image_Well {
 
 	/**
 	 * Get field HTML
-	 *
-	 * @param string $html
-	 * @param mixed  $meta
-	 * @param array  $field
-	 *
-	 * @return string
 	 */
 	public function html()  {
 		// Filter to change the drag & drop box background string
 		$drop_text = $this->drop_text;
 		$extensions = implode( ',', $this->allowed_extensions );
-		$i18n_select	= __('Select Files', 'themeforce');
+		$i18n_select	= __('Select Files', 'imagewell');
 		$img_prefix		= $this->id;
 		$style = sprintf( 'width: %dpx; height: %dpx;', $this->size['width'], $this->size['height'] );
 
-		$html = "<div style='$style' class='hm-uploader " . ( ( $this->attachment_id && $this->display_placeholder ) ? 'with-image' : '' ) . "' id='{$img_prefix}-container'>";
-
-		$html .= "<input type='hidden' class='field-id rwmb-image-prefix' value='{$img_prefix}' />";
-		$html .= "<input type='hidden' class='field-val' name='{$this->id}' value='{$this->attachment_id}' />";
-
-		foreach ( $this->html_fields as $field )
-			$html .= "<input type='hidden' class='{$field['class']}' name='{$field['name']}' value='{$field['value']}' />";
-
-
-		echo $html;
-
-		$html = '';
 		?>
-		<div style="<?php echo $style ?><?php echo ( $this->attachment_id && $this->display_placeholder ) ? '' : 'display: none;' ?> line-height: <?php echo $this->size['height'] ?>px;" class="current-image">
-			<?php if ( $this->attachment_id && wp_get_attachment_image( $this->attachment_id, $this->size, false, 'id=' . $this->id ) ) : ?>
-			<?php echo wp_get_attachment_image( $this->attachment_id, $this->size, false, 'id=' . $this->id ) ?>
-			<?php else : ?>
-			<img src="" />
-			<?php endif; ?>
-			<div class="image-options">
-				<a href="#" class="delete-image"><?php _e( 'Delete', 'themeforce'); ?></a>
+		<div style="<?php echo $style ?>" class="hm-uploader <?php echo $this->attachment_id ? 'with-image' : '' ?>" id="<?php echo $img_prefix ?>-container">
+
+			<input type='hidden' class='field-id rwmb-image-prefix' value="<?php echo $img_prefix ?>" />
+			<input type='hidden' class='field-val' name='<?php echo $this->id ?>' value='<?php echo $this->attachment_id ?>' />
+
+			<?php foreach ( $this->html_fields as $field ) : ?>
+				<input type='hidden' class='<?php echo $field['class'] ?>' name='<?php echo $field['name'] ?>' value="<?php echo $field['value'] ?>" />
+			<?php endforeach ?>
+
+			<div style="<?php echo $style ?><?php echo $this->attachment_id ? '' : 'display: none;' ?> line-height: <?php echo $this->size['height'] ?>px;" class="current-image">
+				<?php if ( $this->attachment_id && wp_get_attachment_image( $this->attachment_id, $this->size, false, 'id=' . $this->id ) ) : ?>
+				<?php echo wp_get_attachment_image( $this->attachment_id, $this->size, false, 'id=' . $this->id ) ?>
+				<?php else : ?>
+				<img src="" />
+				<?php endif; ?>
+				<div class="image-options">
+					<a href="#" class="delete-image"><?php _e( 'Delete', 'themeforce'); ?></a>
+				</div>
 			</div>
-		</div>
-		<?php
 
-		// Show form upload
-		$html = "
-		<div style='{$style}' id='{$img_prefix}-dragdrop' data-extensions='$extensions' data-size='{$this->size_str}' class='rwmb-drag-drop upload-form'>
-			<div class = 'rwmb-drag-drop-inside'>
-				<p>{$drop_text}</p>
-				<p>" . __( 'or', 'themeforce' ) . "</p>
-				<p><input id='{$img_prefix}-browse-button' type='button' value='{$i18n_select}' class='button' /></p>
+			<div style="<?php echo $style ?>; background: #238AC2" class="hover-drag-block hidden">
+				Drop Here!
 			</div>
-		</div>";
 
-		?>
-		<div style="<?php echo $style ?>" class="loading-block hidden">
-			<img src="<?php echo IMAGE_WELL_URL . 'assets/ajax-loader.gif'; ?>" />
+			<style>
+				.hm-uploader.drag-hover .hover-drag-block { display: block !important; font-size: 24px; color: #fff; text-align: center; line-height: 180px; border-radius: 10px; box-shadow: inset 0 1px 3px 1px rgba(0,0,0,0.2);}
+				.hm-uploader.drag-hover .upload-form { opacity: 0; }
+			</style>
+
+			<div style='<?php echo $style ?>' id='<?php echo $img_prefix ?>-dragdrop' data-extensions='<?php echo $extensions ?>' data-size='<?php echo $this->size_str ?>' class='rwmb-drag-drop upload-form'>
+				<div class = 'rwmb-drag-drop-inside'>
+					<p><?php echo $drop_text ?></p>
+					<p>or</p>
+					<p><input id='<?php echo $img_prefix ?>-browse-button' type='button' value='<?php echo $i18n_select ?>' class='button' /></p>
+				</div>
+			</div>
+
+			<div style="<?php echo $style ?>; background: white" class="loading-block hidden">
+				<img src="<?php echo IMAGE_WELL_URL . 'assets/ajax-loader.gif'; ?>" />
+			</div>
+
 		</div>
+
 		<?php
-
-		$html .= "</div>";
-
-		echo $html;
 	}
 }
