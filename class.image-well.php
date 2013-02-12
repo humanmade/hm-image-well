@@ -15,7 +15,8 @@ class Upload_Image_Well {
 			'allowed_extensions'  => array( 'jpg', 'jpeg', 'png', 'gif' ),
 			'drop_text'           => __( 'Drop image here', 'imagewell' ),
 			'size'                => 'width=440&height=200&crop=1',
-			'html_fields'         => array()
+			'html_fields'         => array(),
+			'select_button_text'  => 'Select Files'
 
 		) );
 
@@ -23,6 +24,7 @@ class Upload_Image_Well {
 
 		$this->drop_text 		    = $args['drop_text'];
 		$this->allowed_extensions   = $args['allowed_extensions'];
+		$this->args 				= $args;
 
 		$this->html_fields = $args['html_fields'];
 
@@ -150,7 +152,6 @@ class Upload_Image_Well {
 		// Filter to change the drag & drop box background string
 		$drop_text = $this->drop_text;
 		$extensions = implode( ',', $this->allowed_extensions );
-		$i18n_select	= __('Select Files', 'imagewell');
 		$img_prefix		= $this->id;
 		$style = sprintf( 'width: %dpx; height: %dpx;', $this->size['width'], $this->size['height'] );
 
@@ -187,8 +188,7 @@ class Upload_Image_Well {
 			<div style='<?php echo $style ?>' id='<?php echo $img_prefix ?>-dragdrop' data-extensions='<?php echo $extensions ?>' data-size='<?php echo $this->size_str ?>' class='rwmb-drag-drop upload-form'>
 				<div class = 'rwmb-drag-drop-inside'>
 					<p><?php echo $drop_text ?></p>
-					<p>or</p>
-					<p><input id='<?php echo $img_prefix ?>-browse-button' type='button' value='<?php echo $i18n_select ?>' class='button' /></p>
+					<p><input id='<?php echo $img_prefix ?>-browse-button' type='button' value='<?php echo $this->args['select_button_text'] ?>' class='button' /></p>
 				</div>
 			</div>
 
