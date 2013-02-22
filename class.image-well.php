@@ -35,7 +35,7 @@ class Upload_Image_Well {
 			$this->size['height'] = '200';
 
 
-		if ( empty( $this->size['crop'] ) )
+		if ( ! isset( $this->size['crop'] ) )
 			$this->size['crop'] = '1';
 
 		if ( ! is_string( $this->size ) )
