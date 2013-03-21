@@ -29,11 +29,7 @@ function image_well_enqueue_assets() {
 }
 
 //Hook to handle the upload of the image
-add_action( 'wp_ajax_plupload_image_upload', function() {
-
-	switch_to_blog( HT_User::current_user()->get_site()->get_id() );
+add_action( 'wp_ajax_hm_image_upload_well', function() {
 
 	call_user_func( array( 'Upload_Image_Well', 'handle_upload' ) );
-
-	restore_current_blog();
 } );

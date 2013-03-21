@@ -57,8 +57,6 @@ var ImageWellController = new function() {
 
 	self.clearDataForImageWell = function( well_id ) {
 		
-		console.log( 'deleting');
-		console.log( jQuery( '#' + well_id + '-container .delete-image' ) );
 		jQuery( '#' + well_id + '-container .delete-image' ).click();
 	}
 }
@@ -78,7 +76,8 @@ jQuery( document ).ready( function($) {
 
 });
 
-function CMBInitImageWell( obj ) {
+function CMBInitImageWell( obj, args ) {
+	args = args || {}
 
 	jQuery( obj ).closest( '.hm-uploader' ).find( '.delete-image' ).bind( 
 		'click',
@@ -106,14 +105,14 @@ function CMBInitImageWell( obj ) {
 
 	prefix = jQuery( obj ).val();
 	
+	args.container = prefix + '-container'
+	args.browse_button = prefix + '-browse-button'
+	args.drop_element = prefix + '-dragdrop'
+
 	var input = jQuery( obj )
 	// Adding container, browser button and drag ang drop area
 	var tf_well_plupload_init = jQuery.extend( 
-		{
-			container:		prefix + '-container',
-			browse_button:	prefix + '-browse-button',
-			drop_element:	prefix + '-dragdrop'
-		},
+		args,
 		tf_well_plupload_defaults
 	);
 
@@ -121,7 +120,8 @@ function CMBInitImageWell( obj ) {
 	tf_well_plupload_init.multipart_params.field_id = prefix;
 	tf_well_plupload_init.multipart_params.size = input.parent().find( '.upload-form' ).attr( 'data-size' );
 
-	tf_well_plupload_init.filters[0].extensions = input.parent().find( '.upload-form' ).attr( 'data-extensions' );
+	if ( tf_well_plupload_init.allowed_extensions )
+		tf_well_plupload_init.filters[0].extensions = tf_well_plupload_init.allowed_extensions.join(',');
 
 	// Create new uploader
 	tf_image_uploaders[ prefix ] = new plupload.Uploader( tf_well_plupload_init );
