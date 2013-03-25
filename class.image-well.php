@@ -34,6 +34,10 @@ class Upload_Image_Well {
 		if ( empty( $this->size['height'] ) )
 			$this->size['height'] = '200';
 
+
+		if ( ! isset( $this->size['crop'] ) )
+			$this->size['crop'] = '1';
+
 		if ( ! is_string( $this->size ) )
 			$this->size_str = sprintf( 'width=%d&height=%d&crop=%s', $this->size['width'], $this->size['height'], $this->size['crop'] );
 
@@ -65,12 +69,12 @@ class Upload_Image_Well {
 			// additional post data to send to our ajax hook
 			'multipart_params'		=> array(
 				'_ajax_nonce'	=> wp_create_nonce( 'plupload_image' ),
-				'action'    	=> 'plupload_image_upload'
+				'action'    	=> 'hm_image_upload_well'
 			)
 
 		));
 
-		//wp_enqueue_style( 'well-upload-image', IMAGE_WELL_URL . '/assets/plupload-image.css' );
+		wp_enqueue_style( 'well-upload-image', IMAGE_WELL_URL . '/assets/plupload-image.css' );
 	}
 
 	/**
@@ -95,7 +99,7 @@ class Upload_Image_Well {
 
 		// you can use WP's wp_handle_upload() function:
 		$file = $_FILES['async-upload'];
-		$file_attr = wp_handle_upload( $file, array('test_form'=>true, 'action' => 'plupload_image_upload') );
+		$file_attr = wp_handle_upload( $file, array('test_form'=>true, 'action' => 'hm_image_upload_well') );
 
 		$attachment = array (
 			'post_mime_type'	=> $file_attr['type'],
@@ -119,7 +123,7 @@ class Upload_Image_Well {
 				add_post_meta( $post_id, $_REQUEST['field_id'], $id, false );
 			}
 
-			$src = wp_get_attachment_image_src( $id, $_REQUEST['size'] );
+			$src = wp_get_attachment_image_src( $id, $_REQUEST['size'], true );
 
 			$response->add( array(
 				'what'			=>'tf_well_image_response',
@@ -129,6 +133,7 @@ class Upload_Image_Well {
 					'edit_link'	=> get_edit_post_link($id)
 				)
 			) );
+
 			$response->send();
 		}
 
