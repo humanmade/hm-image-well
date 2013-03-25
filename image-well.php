@@ -29,7 +29,7 @@ function image_well_enqueue_assets() {
 }
 
 //Hook to handle the upload of the image
-add_action( 'wp_ajax_plupload_image_upload', function() {
+add_action( 'wp_ajax_hm_image_upload_well', function() {
 
 	if ( HT_User::current_user()->get_role() !== 'whitelabeler' )
 		switch_to_blog( HT_User::current_user()->get_site()->get_id() );
