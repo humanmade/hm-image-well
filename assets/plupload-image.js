@@ -17,7 +17,6 @@ var ImageWellController = new function() {
 		}
 
 		tf_image_uploaders[ well_id ].bind( 'FileUploaded', function( a, b, c ) {
-
 			var arguments = arguments;
 
 			c = jQuery.parseXML( c.response );
@@ -40,7 +39,7 @@ var ImageWellController = new function() {
 
 			setTimeout( function() {
 				self.addDeleteFileUploadCallbackForImageWell( well_id, callback );
-			}, 1 );
+			}, 100 );
 
 			return;
 		}
@@ -71,7 +70,11 @@ jQuery( document ).ready( function($) {
 	// Using all the image prefixes
 	totalRWMB = $( 'input:hidden.rwmb-image-prefix' ).length
 	
-	$( 'input:hidden.rwmb-image-prefix' ).each( function() { CMBInitImageWell( this ); } );
+	$( 'input:hidden.rwmb-image-prefix' ).each( function() { 
+
+		if ( ! jQuery ( this ).hasClass( 'dont-reapply' ) )
+			CMBInitImageWell( this ); 
+	} );
 
 
 });
