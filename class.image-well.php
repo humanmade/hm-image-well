@@ -74,7 +74,7 @@ class Upload_Image_Well {
 
 		));
 
-		wp_enqueue_style( 'well-upload-image', IMAGE_WELL_URL . '/assets/plupload-image.css' );
+		//wp_enqueue_style( 'well-upload-image', IMAGE_WELL_URL . '/assets/plupload-image.css' );
 	}
 
 	/**
@@ -192,7 +192,7 @@ class Upload_Image_Well {
 
 			<div style='<?php echo $style ?>' id='<?php echo $img_prefix ?>-dragdrop' data-extensions='<?php echo $extensions ?>' data-size='<?php echo $this->size_str ?>' class='rwmb-drag-drop upload-form'>
 				<div class = 'rwmb-drag-drop-inside'>
-					<p><?php echo $drop_text ?></p>
+					<p class="drop-text"><?php echo $drop_text ?></p>
 					<p><input id='<?php echo $img_prefix ?>-browse-button' type='button' value='<?php echo $this->args['select_button_text'] ?>' class='button' /></p>
 				</div>
 			</div>
