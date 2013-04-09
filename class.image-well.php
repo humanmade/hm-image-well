@@ -74,7 +74,7 @@ class Upload_Image_Well {
 
 		));
 
-		wp_enqueue_style( 'well-upload-image', IMAGE_WELL_URL . '/assets/plupload-image.css' );
+		//wp_enqueue_style( 'well-upload-image', IMAGE_WELL_URL . '/assets/plupload-image.css' );
 	}
 
 	/**
