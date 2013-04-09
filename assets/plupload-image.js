@@ -17,7 +17,6 @@ var ImageWellController = new function() {
 		}
 
 		tf_image_uploaders[ well_id ].bind( 'FileUploaded', function( a, b, c ) {
-
 			var arguments = arguments;
 
 			c = jQuery.parseXML( c.response );
@@ -40,7 +39,7 @@ var ImageWellController = new function() {
 
 			setTimeout( function() {
 				self.addDeleteFileUploadCallbackForImageWell( well_id, callback );
-			}, 1 );
+			}, 100 );
 
 			return;
 		}
@@ -71,7 +70,11 @@ jQuery( document ).ready( function($) {
 	// Using all the image prefixes
 	totalRWMB = $( 'input:hidden.rwmb-image-prefix' ).length
 	
-	$( 'input:hidden.rwmb-image-prefix' ).each( function() { CMBInitImageWell( this ); } );
+	$( 'input:hidden.rwmb-image-prefix' ).each( function() { 
+
+		if ( ! jQuery ( this ).hasClass( 'dont-reapply' ) )
+			CMBInitImageWell( this ); 
+	} );
 
 
 });
@@ -83,6 +86,7 @@ function CMBInitImageWell( obj, args ) {
 		'click',
 		function(e)
 		{
+
 			e.preventDefault()
 			var uploader = jQuery( this ).closest( '.hm-uploader' )
 			
@@ -126,8 +130,18 @@ function CMBInitImageWell( obj, args ) {
 	// Create new uploader
 	tf_image_uploaders[ prefix ] = new plupload.Uploader( tf_well_plupload_init );
 
+	tf_image_uploaders[ prefix ].bind('Init', function(up, params) {
+
+     if ( ! params.runtime )
+     	alert( 'No runtime for uploading images found! Please install Flash.');
+
+     if ( params.runtime === 'flash' )
+     	jQuery( obj ).closest( '.hm-uploader' ).addClass( 'no-drag-n-drop' );
+    });
+
 	tf_image_uploaders[ prefix ].init();
 	//
+
 	tf_image_uploaders[ prefix ].bind( 
 		'FilesAdded', 
 		function( up, files )
