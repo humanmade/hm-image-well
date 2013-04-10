@@ -192,8 +192,8 @@ class Upload_Image_Well {
 
 			<div style='<?php echo $style ?>' id='<?php echo $img_prefix ?>-dragdrop' data-extensions='<?php echo $extensions ?>' data-size='<?php echo $this->size_str ?>' class='rwmb-drag-drop upload-form'>
 				<div class = 'rwmb-drag-drop-inside'>
-					<p class="drop-text"><?php echo $drop_text ?></p>
-					<p><input id='<?php echo $img_prefix ?>-browse-button' type='button' value='<?php echo $this->args['select_button_text'] ?>' class='button' /></p>
+					<span class="drop-text"><?php echo $drop_text ?></span>
+					<span><input id='<?php echo $img_prefix ?>-browse-button' type='button' value='<?php echo $this->args['select_button_text'] ?>' class='button' /></span>
 				</div>
 			</div>
 
