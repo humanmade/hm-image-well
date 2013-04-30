@@ -63,7 +63,7 @@ class Upload_Image_Well {
 			'url'					=> admin_url('admin-ajax.php'),
 			'flash_swf_url'			=> includes_url( 'js/plupload/plupload.flash.swf' ),
 			'silverlight_xap_url'	=> includes_url( 'js/plupload/plupload.silverlight.xap' ),
-			'filters'				=> array( array( 'title' => __( 'Allowed Image Files' ), 'extensions' => '*' ) ),
+			'filters'				=> array( array( 'title' => __( 'Allowed Image Files' ), 'extensions' => 'jpg,jpeg,png,gif' ) ),
 			'multipart'				=> true,
 			'urlstream_upload'		=> true,
 			// additional post data to send to our ajax hook

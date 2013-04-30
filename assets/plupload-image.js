@@ -115,7 +115,7 @@ function CMBInitImageWell( obj, args ) {
 
 	var input = jQuery( obj )
 	// Adding container, browser button and drag ang drop area
-	var tf_well_plupload_init = jQuery.extend( 
+	var tf_well_plupload_init = jQuery.extend( true,
 		args,
 		tf_well_plupload_defaults
 	);

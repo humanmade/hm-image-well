@@ -7,7 +7,7 @@ Version: 0.1
 Author URI: http://hmn.md
 */
 
-define( 'IMAGE_WELL_VERSION', '1.0.0' );
+define( 'IMAGE_WELL_VERSION', '1.0.1' );
 
 define( 'IMAGE_WELL_PATH', trailingslashit( str_replace( '\\', '/',  dirname( __FILE__ ) ) ) );
 define( 'IMAGE_WELL_URL', str_replace( str_replace( '\\', '/', WP_CONTENT_DIR ), WP_CONTENT_URL, IMAGE_WELL_PATH ) );
