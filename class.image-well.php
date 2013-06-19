@@ -125,15 +125,19 @@ class Upload_Image_Well {
 
 			$src = wp_get_attachment_image_src( $id, $_REQUEST['size'], true );
 
-			$response->add( array(
+			$response_data = array(
 				'what'			=>'tf_well_image_response',
 				'data'			=> $id,
 				'supplemental'	=> array(
 					'thumbnail'	=>  $src[0],
-					'edit_link'	=> get_edit_post_link($id)
+					'edit_link'	=> get_edit_post_link($id),
 				)
-			) );
+			);
 
+			$response_data = apply_filters( 'image-well-response', $response_data, $id, $_REQUEST );
+
+			$response->add( $response_data );
+			
 			$response->send();
 		}
 
