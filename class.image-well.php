@@ -43,6 +43,10 @@ class Upload_Image_Well {
 		else
 			$this->size_str = $this->size;
 
+		$this->allowed_mime_types = array();
+		foreach ( $this->allowed_extensions as $ext )
+			$this->allowed_mime_types[] = end( wp_check_filetype( 'file.' . $ext ) );
+
 	}
 
 	static function enqueue_scripts() {
@@ -62,7 +66,7 @@ class Upload_Image_Well {
 			'url'					=> admin_url('admin-ajax.php'),
 			'flash_swf_url'			=> includes_url( 'js/plupload/plupload.flash.swf' ),
 			'silverlight_xap_url'	=> includes_url( 'js/plupload/plupload.silverlight.xap' ),
-			'filters'				=> array( array( 'title' => __( 'Allowed Image Files' ), 'extensions' => 'jpg,jpeg,png,gif,pdf' ) ),
+			'filters'				=> array( array( 'title' => __( 'Allowed Image Files' ), 'extensions' => 'jpg,jpeg,png,gif' ) ),
 			'multipart'				=> true,
 			'urlstream_upload'		=> true,
 			// additional post data to send to our ajax hook
@@ -205,6 +209,12 @@ class Upload_Image_Well {
 			</div>
 
 		</div>
+
+		<script>
+			jQuery( document ).ready( function() {
+				jQuery( "#<?php echo $img_prefix ?>-container" ).find( 'input[type="file"]' ).attr( 'accept', '<?php echo implode( ',', $this->allowed_mime_types ); ?> ' );
+			} );
+		</script>
 
 		<?php
 	}
