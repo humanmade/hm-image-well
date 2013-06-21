@@ -16,8 +16,7 @@ class Upload_Image_Well {
 			'drop_text'           => __( 'Drop image here', 'imagewell' ),
 			'size'                => 'width=440&height=200&crop=1',
 			'html_fields'         => array(),
-			'select_button_text'  => 'Select Files'
-
+			'select_button_text'  => 'Select Files',
 		) );
 
 		$this->size = wp_parse_args( $args['size'] );
@@ -63,7 +62,7 @@ class Upload_Image_Well {
 			'url'					=> admin_url('admin-ajax.php'),
 			'flash_swf_url'			=> includes_url( 'js/plupload/plupload.flash.swf' ),
 			'silverlight_xap_url'	=> includes_url( 'js/plupload/plupload.silverlight.xap' ),
-			'filters'				=> array( array( 'title' => __( 'Allowed Image Files' ), 'extensions' => 'jpg,jpeg,png,gif' ) ),
+			'filters'				=> array( array( 'title' => __( 'Allowed Image Files' ), 'extensions' => 'jpg,jpeg,png,gif,pdf' ) ),
 			'multipart'				=> true,
 			'urlstream_upload'		=> true,
 			// additional post data to send to our ajax hook
