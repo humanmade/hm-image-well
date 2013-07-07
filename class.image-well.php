@@ -188,8 +188,12 @@ class Upload_Image_Well {
 				</div>
 			</div>
 
-			<div style="<?php echo $style ?>; background: #238AC2" class="hover-drag-block hidden">
-				Drop Here!
+			<div class="hover-drag-block hidden">
+				<table>
+					<td>
+					Drop Here!
+					</td>
+				</table>
 			</div>
 
 			<style>
