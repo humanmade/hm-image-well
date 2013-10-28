@@ -45,7 +45,7 @@ class Upload_Image_Well {
 
 		$this->allowed_mime_types = array();
 		foreach ( $this->allowed_extensions as $ext )
-			$this->allowed_mime_types[] = end( wp_check_filetype( 'file.' . $ext ) );
+			$this->allowed_mime_types[] = wp_check_filetype( 'file.' . $ext )['type'];
 
 	}
 
