@@ -102,7 +102,11 @@ class Upload_Image_Well {
 
 		// you can use WP's wp_handle_upload() function:
 		$file = $_FILES['async-upload'];
-		$file_attr = wp_handle_upload( $file, array('test_form'=>true, 'action' => 'hm_image_upload_well') );
+		$file_attr = wp_handle_upload( $file, array('test_form'=>false) );
+
+		if ( ! empty( $file_attr['error'] ) ) {
+			wp_die( $file_attr['error'] );
+		}
 
 		$attachment = array (
 			'post_mime_type'	=> $file_attr['type'],
