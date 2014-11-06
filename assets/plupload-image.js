@@ -99,12 +99,12 @@ function CMBInitImageWell( obj, args ) {
 		}
 	);
 
-	jQuery( obj ).closest( '.hm-uploader' ).bind( 'dragover', function() {
-		jQuery( this ).addClass( 'drag-hover');
+	jQuery( obj ).closest( '.hm-uploader' ).add( jQuery( obj ).siblings( '.rwmb-drag-drop' ) ).bind( 'dragover', function() {
+		jQuery( this ).closest( '.hm-uploader' ).addClass( 'drag-hover');
 	});
 
-	jQuery( obj ).closest( '.hm-uploader' ).bind( 'dragleave', function() {
-		jQuery( this ).removeClass( 'drag-hover');
+	jQuery( obj ).closest( '.hm-uploader' ).add( jQuery( obj ).siblings( '.rwmb-drag-drop' ) ).bind( 'dragleave', function() {
+		jQuery( this ).closest( '.hm-uploader' ).removeClass( 'drag-hover');
 	});
 
 	prefix = jQuery( obj ).val();
