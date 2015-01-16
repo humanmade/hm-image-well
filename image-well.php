@@ -31,11 +31,11 @@ function image_well_enqueue_assets() {
 //Hook to handle the upload of the image
 add_action( 'wp_ajax_hm_image_upload_well', function() {
 
-	if ( HT_User::current_user()->get_role() !== 'whitelabeler' && is_main_site() )
+	if ( ! ht_is_whitelabeler() && is_main_site() )
 		switch_to_blog( HT_User::current_user()->get_site()->get_id() );
 
 	call_user_func( array( 'Upload_Image_Well', 'handle_upload' ) );
 
-	if ( HT_User::current_user()->get_role() !== 'whitelabeler' && is_main_site() )
+	if ( ! ht_is_whitelabeler() && is_main_site() )
 		restore_current_blog();
 } );
